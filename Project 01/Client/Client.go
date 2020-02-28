@@ -104,7 +104,7 @@ func MakeRequest(PathFile string) {
 		log.Fatalln(err)
 	}
 
-	//multiPartWriter.Close()
+	multiPartWriter.Close()
 
 	req, err := http.NewRequest("POST", "http://localhost:8080", requestBody)
 	if err != nil {
@@ -118,9 +118,6 @@ func MakeRequest(PathFile string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	//body, _ := ioutil.ReadAll(response.Body)
-	//fmt.Println(string(body))
 	var result map[string]interface{}
 	json.NewDecoder(response.Body).Decode(&result)
 	fmt.Println(result)
