@@ -29,7 +29,7 @@ func Action(w http.ResponseWriter, r *http.Request) {
 	defer tempFile.Close()
 	fileBytes, _ := ioutil.ReadAll(f)
 	tempFile.Write(fileBytes)
-	cmd := exec.Command("pigo", "-in", tempFile.Name(), "-json", "-out", "out.jpg", "-cf", "C:/Users/ASUS/go/src/github.com/esimov/pigo/cascade/facefinder")
+	cmd := exec.Command("pigo", "-in", tempFile.Name(), "-json", "-out", "out.jpg", "-cf", "github.com/esimov/pigo/cascade/facefinder")
 	_ = cmd.Run()
 	fmt.Println(tempFile.Name())
 	//-----------------------------

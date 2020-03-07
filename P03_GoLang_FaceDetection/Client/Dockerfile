@@ -23,6 +23,6 @@ RUN mkdir /go/src/Image
 RUN mkdir /go/src/Json
 
 WORKDIR /go/src
-EXPOSE 8081
-RUN go build -o ./go/src .
-CMD ["./go/src"]
+EXPOSE 8080
+#RUN go build -o ./go/src .
+#CMD ["./go/src"]

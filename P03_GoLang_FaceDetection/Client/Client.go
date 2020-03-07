@@ -40,7 +40,7 @@ func input(Path *string, Type *string) {
 //--------------------------------------
 
 func MakeRequest(PathFile string, Type string) {
-	url := "http://localhost:8080"
+	url := "http://192.168.1.13:8080"
 	method := "POST"
 
 	payload := &bytes.Buffer{}
