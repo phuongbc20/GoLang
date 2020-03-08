@@ -46,8 +46,7 @@ func MakeRequest(PathFile string, Type string) {
 	writer := multipart.NewWriter(payload)
 	file, errFile1 := os.Open(PathFile)
 	defer file.Close()
-	part1,
-		errFile1 := writer.CreateFormFile("File", "input.png")
+	part1, errFile1 := writer.CreateFormFile("File", "input.jpg")
 	_, errFile1 = io.Copy(part1, file)
 	if errFile1 != nil {
 		fmt.Println(errFile1)
@@ -67,7 +66,7 @@ func MakeRequest(PathFile string, Type string) {
 	res, err := client.Do(req)
 	if Type == "1" {
 		f, _ := os.Create("Image/output.jpg")
-		_, _ = io.Copy(f, res.Body)
+		io.Copy(f, res.Body)
 	} else if Type == "2" {
 		body, _ := ioutil.ReadAll(res.Body)
 		fmt.Println(string(body))
