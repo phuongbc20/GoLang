@@ -24,7 +24,7 @@ type OutputJson struct {
 //Function MAIN
 //--------------------------------------
 func main() {
-	http.HandleFunc("/", Action)
+	http.HandleFunc("/facedetection", Action)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -46,18 +46,15 @@ func Action(w http.ResponseWriter, r *http.Request) {
 	var FileName string
 	if r.FormValue("Type") == "1" {
 		FileName = "out.jpg"
-
 		fmt.Println(FileName)
 		file, err := os.Open(FileName)
 		if err != nil {
 			log.Fatalln(err)
 		}
-
 		defer file.Close()
-
 		io.Copy(w, file)
 	} else if r.FormValue("Type") == "2" {
-		plan, _ := ioutil.ReadFile("output.json") // filename is the JSON file to read
+		plan, _ := ioutil.ReadFile("output.json")
 		var data []OutputJson
 		err := json.Unmarshal(plan, &data)
 		if err != nil {

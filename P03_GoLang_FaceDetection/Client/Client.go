@@ -20,7 +20,6 @@ func main() {
 	input(&Path, &Type)
 	//--------------------------------------
 	MakeRequest(Path, Type)
-
 }
 
 //--------------------------------------
@@ -41,9 +40,8 @@ func input(Path *string, Type *string) {
 //--------------------------------------
 
 func MakeRequest(PathFile string, Type string) {
-	url := "http://192.168.1.13:8080"
+	url := "http://192.168.1.13:8080/facedetection"
 	method := "POST"
-
 	payload := &bytes.Buffer{}
 	writer := multipart.NewWriter(payload)
 	file, errFile1 := os.Open(PathFile)
@@ -52,7 +50,6 @@ func MakeRequest(PathFile string, Type string) {
 		errFile1 := writer.CreateFormFile("File", "input.png")
 	_, errFile1 = io.Copy(part1, file)
 	if errFile1 != nil {
-
 		fmt.Println(errFile1)
 	}
 	_ = writer.WriteField("Type", Type)
@@ -60,21 +57,14 @@ func MakeRequest(PathFile string, Type string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	client := &http.Client{}
 	req, err := http.NewRequest(method, url, payload)
-
 	if err != nil {
 		fmt.Println(err)
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 	res, err := client.Do(req)
-	/*var result map[string]interface{}
-	json.NewDecoder(res.Body).Decode(&result)
-	fmt.Println(result)*/
-	//header
 	if Type == "1" {
 		f, _ := os.Create("Image/output.jpg")
 		_, _ = io.Copy(f, res.Body)
