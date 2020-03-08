@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -78,7 +79,7 @@ func MakeRequest(PathFile string, Type string) {
 		f, _ := os.Create("Image/output.jpg")
 		_, _ = io.Copy(f, res.Body)
 	} else if Type == "2" {
-		f, _ := os.Create("Json/output.json")
-		_, _ = io.Copy(f, res.Body)
+		body, _ := ioutil.ReadAll(res.Body)
+		fmt.Println(string(body))
 	}
 }

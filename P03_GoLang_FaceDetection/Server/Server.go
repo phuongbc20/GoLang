@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -9,6 +10,15 @@ import (
 	"os"
 	"os/exec"
 )
+
+type ToaDo struct {
+	X int `json:"X"`
+	Y int `json:"Y"`
+}
+type OutputJson struct {
+	Min ToaDo `json:"Min"`
+	Max ToaDo `json:"Max"`
+}
 
 //--------------------------------------
 //Function MAIN
@@ -36,17 +46,25 @@ func Action(w http.ResponseWriter, r *http.Request) {
 	var FileName string
 	if r.FormValue("Type") == "1" {
 		FileName = "out.jpg"
+
+		fmt.Println(FileName)
+		file, err := os.Open(FileName)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		defer file.Close()
+
+		io.Copy(w, file)
 	} else if r.FormValue("Type") == "2" {
-		FileName = "output.json"
+		plan, _ := ioutil.ReadFile("output.json") // filename is the JSON file to read
+		var data []OutputJson
+		err := json.Unmarshal(plan, &data)
+		if err != nil {
+			fmt.Print("Cannot unmarshal the json ", err)
+		}
+		json.NewEncoder(w).Encode(data)
+		fmt.Print(data)
 	}
-	fmt.Println(FileName)
-	file, err := os.Open(FileName)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	defer file.Close()
-
-	io.Copy(w, file)
 
 }

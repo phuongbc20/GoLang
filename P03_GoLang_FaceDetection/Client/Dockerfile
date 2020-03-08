@@ -24,5 +24,5 @@ RUN mkdir /go/src/Json
 
 WORKDIR /go/src
 EXPOSE 8080
-#RUN go build -o ./go/src .
-#CMD ["./go/src"]
+RUN go build -o ./go/src .
+CMD ["./go/src"]
