@@ -29,7 +29,7 @@ type OutputJson struct {
 //--------------------------------------
 func main() {
 	http.HandleFunc("/facedetection", Action)
-	http.ListenAndServe(":3306", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 //--------------------------------------
@@ -96,13 +96,13 @@ func Action(w http.ResponseWriter, r *http.Request) {
 }
 
 func dbFind(Name string, Size string) bool {
-	db, err := sql.Open("mysql", "root:123456@tcp(192.168.1.13:3306)/qlysinhvien")
+	db, err := sql.Open("mysql", "root:my-secret-pw@tcp(192.168.1.8:3306)/test")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 	var name string
-	err = db.QueryRow("SELECT NAME FROM RESULT WHERE NAME=? ", Name).Scan(&name)
+	err = db.QueryRow("SELECT NAME FROM result WHERE NAME=? AND SIZE=?", Name, Size).Scan(&name)
 	if err != nil {
 		return true
 	} else {
@@ -113,7 +113,7 @@ func dbFind(Name string, Size string) bool {
 }
 
 func dbInsert(Name string, Size string, Nameout string) {
-	db, err := sql.Open("mysql", "root:123456@tcp(192.168.1.13:3306)/qlysinhvien")
+	db, err := sql.Open("mysql", "root:my-secret-pw@tcp(192.168.1.8:3306)/test")
 	if err != nil {
 		panic(err)
 	}
@@ -129,22 +129,22 @@ func dbInsert(Name string, Size string, Nameout string) {
 	defer Create.Close()
 }
 func dbOutIg(Name string, Size string) string {
-	db, err := sql.Open("mysql", "root:123456@tcp(192.168.1.13:3306)/qlysinhvien")
+	db, err := sql.Open("mysql", "root:my-secret-pw@tcp(192.168.1.8:3306)/test")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 	var name string
-	_ = db.QueryRow("SELECT NAMEOUT FROM RESULT WHERE NAME=? AND SIZE=?", Name, Size).Scan(&name)
+	_ = db.QueryRow("SELECT NAMEOUT FROM result WHERE NAME=? AND SIZE=?", Name, Size).Scan(&name)
 	return name
 }
 func dbOutJson(Name string, Size string) string {
-	db, err := sql.Open("mysql", "root:123456@tcp(192.168.1.13:3306)/qlysinhvien")
+	db, err := sql.Open("mysql", "root:my-secret-pw@tcp(192.168.1.8:3306)/test")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 	var Json string
-	_ = db.QueryRow("SELECT JSON FROM RESULT WHERE NAME=? AND SIZE=?", Name, Size).Scan(&Json)
+	_ = db.QueryRow("SELECT JSON FROM result WHERE NAME=? AND SIZE=?", Name, Size).Scan(&Json)
 	return Json
 }

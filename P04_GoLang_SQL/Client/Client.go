@@ -40,7 +40,7 @@ func input(Path *string, Type *string) {
 //--------------------------------------
 
 func MakeRequest(PathFile string, Type string) {
-	url := "http://192.168.1.13:8080/facedetection"
+	url := "http://172.17.0.2:8080/facedetection"
 	method := "POST"
 	payload := &bytes.Buffer{}
 	writer := multipart.NewWriter(payload)

@@ -14,19 +14,23 @@ RUN mkdir -p /go/src /go/bin && chmod -R 777 /go
 ENV GOROOT /usr/local/go
 ENV GOPATH /go
 ENV PATH /go/bin:$PATH
+
+#Cài đặt Git & Pigo
 RUN apt update
 RUN apt-get install -y git
+RUN cd go && go get -u -f github.com/esimov/pigo/cmd/pigo
+RUN cd go/src/github.com/esimov/pigo/cmd/pigo && go install
+
+#Cài đặt MysqlGolang
+RUN cd go && go get -u github.com/go-sql-driver/mysql
+RUN cd go/src/github.com/go-sql-driver/mysql && go install
 RUN apt-get install -y net-tools
+
 #Lấy những file cần thiết
-COPY Client.go /go/src/Client.go
-COPY /Test /go/src
-RUN mkdir /go/src/Image
-RUN mkdir /go/src/Json
-
-
+COPY test.go /go/src/server.go
 
 #Chạy chương trình
 WORKDIR /go/src
-EXPOSE 8080
+
 #RUN go build -o ./go/src .
 #CMD ["./go/src"]

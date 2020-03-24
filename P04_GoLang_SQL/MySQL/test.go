@@ -13,13 +13,13 @@ type Tag struct {
 }
 
 func main() {
-	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/qlysinhvien")
+	db, err := sql.Open("mysql", "root:my-secret-pw@tcp(localhost:3306)/test")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
-	Create, err := db.Query("CREATE TABLE RESULT( NAME VARCHAR(255), SIZE VARCHAR(255), JSON TEXT, NAMEOUT VARCHAR(255) )")
+	Create, err := db.Query("CREATE TABLE result( NAME VARCHAR(255), SIZE VARCHAR(255), JSON TEXT, NAMEOUT VARCHAR(255) )")
 	if err != nil {
 		panic(err.Error())
 	} else {
@@ -29,7 +29,7 @@ func main() {
 
 	/*var name string
 	var size string
-	err = db.QueryRow("SELECT NAME,SIZE FROM RESULT WHERE NAME=? AND SIZE=?", "b", "3").Scan(&name, &size)
+	err = db.QueryRow("SELECT NAME,SIZE FROM RESULT").Scan(&name, &size)
 	if err != nil {
 		panic(err.Error())
 	}
